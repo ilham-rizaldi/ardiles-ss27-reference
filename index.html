@@ -103,6 +103,9 @@
 (() => {
  const input=document.getElementById('query'), topics=[...document.querySelectorAll('.topic')], status=document.getElementById('status'), reset=document.getElementById('reset'), empty=document.getElementById('empty');
  const texts=topics.map(t=>t.textContent.toLocaleLowerCase('id'));
+ const wide=window.matchMedia('(min-width:901px)'), contents=document.getElementById('contents');
+ contents.open=wide.matches;
+ wide.addEventListener('change',()=>{contents.open=wide.matches;});
  function filter(){const terms=input.value.trim().toLocaleLowerCase('id').split(/\s+/).filter(Boolean);let count=0;topics.forEach((t,i)=>{const match=terms.every(term=>texts[i].includes(term));t.hidden=!match;if(match)count++;});status.textContent=terms.length?count+' dari '+topics.length+' pembahasan ditemukan':topics.length+' pembahasan';reset.hidden=!terms.length;empty.hidden=count!==0;}
  input.addEventListener('input',filter);input.addEventListener('keydown',e=>{if(e.key==='Escape'){input.value='';filter();}});
  reset.addEventListener('click',()=>{input.value='';filter();input.focus();});
